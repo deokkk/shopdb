@@ -2,14 +2,11 @@ package model;
 
 import java.sql.*;
 import java.util.*;
+
+import commons.DBUtil;
 import vo.*;;
 
 public class ItemDao {
-	String driver = "org.mariadb.jdbc.Driver";
-	String dbaddr = "jdbc:mariadb://localhost:3306/shopdb";
-	String dbid = "root";
-	String dbpw = "java1234";
-	
 	public ArrayList<ItemAndCategory> selectItemByPage(int beginRow, int rowPerPage) {
 		System.out.println("ItemDao.selectItemAll()");
 		ArrayList<ItemAndCategory> list = new ArrayList<ItemAndCategory>();
@@ -17,8 +14,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, i.item_img, c.category_id, c.category_name FROM item i INNER JOIN category c ON i.category_id=c.category_id LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
@@ -83,8 +79,7 @@ public class ItemDao {
 		ResultSet rs = null;
 		int lastPage = 1;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT COUNT(*) cnt FROM item";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -121,8 +116,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, i.item_img, c.category_id, c.category_name FROM item i INNER JOIN category c ON i.category_id=c.category_id";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -168,8 +162,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, c.category_id, c.category_name FROM item i INNER JOIN category c ON i.category_id=c.category_id WHERE i.item_name=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, itemName);
@@ -202,8 +195,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, c.category_id, c.category_name FROM item i INNER JOIN category c ON i.category_id=c.category_id WHERE i.item_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, itemId);
@@ -236,8 +228,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, i.item_img, c.category_id, c.category_name FROM item i INNER JOIN category c ON i.category_id=c.category_id WHERE i.item_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, itemId);
@@ -278,8 +269,7 @@ public class ItemDao {
 		System.out.println("ItemDao.insertItem()");
 		System.out.println(item.getCategoryId() + " <--categoryId");
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "INSERT INTO item(category_id, item_name, item_price, item_contents) VALUES(?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, item.getCategoryId());
@@ -305,8 +295,7 @@ public class ItemDao {
 		PreparedStatement stmt = null;
 		System.out.println("ItemDao.updateItem()");
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "UPDATE item SET category_id=?, item_name=?, item_price=?, item_contents=? WHERE item_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, item.getCategoryId());

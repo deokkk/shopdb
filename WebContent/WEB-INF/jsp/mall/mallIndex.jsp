@@ -60,7 +60,7 @@
 		<div class="row" style="margin: 20px;">
 			<c:forEach var="i" items="${list}" varStatus="stats">
 				<div class="col-4" style="margin-bottom: 25px;">
-					<div class="card bg-light" style="width: 300px; height: 420px;">
+					<div class="card bg-light" style="width: 250px; height: 400px;">
 						<img class="card-img-top" style="width: 100%" src="${pageContext.request.contextPath}/imgs/${i.item.itemImg}">
 						<div class="card-body text-center">
 							<a class="card-link" href="${pageContext.request.contextPath}/mall/InsertOrders?itemId=${i.item.itemId}">${i.item.itemName}</a>

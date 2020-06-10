@@ -8,14 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import commons.DBUtil;
 import vo.Category;
 
 public class CategoryDao {
-	String driver = "org.mariadb.jdbc.Driver";
-	String dbaddr = "jdbc:mariadb://localhost:3306/shopdb";
-	String dbid = "root";
-	String dbpw = "java1234";
-	
 	public HashMap<String, Object> currentGroup(int currentPage, int pagePerGroup, int lastPage) {
 		System.out.println("CategoryDao.currentGroup()");
 		int currentPageGroup = 0;
@@ -39,8 +35,7 @@ public class CategoryDao {
 		ResultSet rs = null;
 		int lastPage = 1;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT COUNT(*) cnt FROM category ";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -75,8 +70,7 @@ public class CategoryDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "UPDATE category SET category_name=? WHERE category_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, category.getCategoryName());
@@ -101,8 +95,7 @@ public class CategoryDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT category_id, category_name FROM category WHERE category_name=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, categoryName);
@@ -134,8 +127,7 @@ public class CategoryDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT category_id, category_name FROM category WHERE category_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, categoryId);
@@ -165,8 +157,7 @@ public class CategoryDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "INSERT INTO category(category_name) VALUES(?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, category.getCategoryName());
@@ -190,8 +181,7 @@ public class CategoryDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT category_id, category_name FROM category";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -223,8 +213,7 @@ public class CategoryDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT category_id, category_name FROM category LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);

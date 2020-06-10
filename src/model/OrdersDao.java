@@ -10,14 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import commons.DBUtil;
 import vo.*;
 
 public class OrdersDao {
-	String driver = "org.mariadb.jdbc.Driver";
-	String dbaddr = "jdbc:mariadb://localhost:3306/shopdb";
-	String dbid = "root";
-	String dbpw = "java1234";
-	
 	public HashMap<String, Object> currentGroup(int currentPage, int pagePerGroup, int lastPage) {
 		System.out.println("OrdersDao.currentGroup()");
 		int currentPageGroup = 0;
@@ -41,8 +37,7 @@ public class OrdersDao {
 		ResultSet rs = null;
 		int lastPage = 1;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT COUNT(*) cnt FROM orders WHERE user_name=? AND user_phone=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userName);
@@ -80,8 +75,7 @@ public class OrdersDao {
 		ResultSet rs = null;
 		int lastPage = 1;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT COUNT(*) cnt FROM orders";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -117,8 +111,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT o.orders_id, o.item_id, o.item_count, o.orders_date, o.orders_price, o.orders_state, o.user_name, o.user_phone, o.user_address, i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, i.item_img, c.category_id, c.category_name FROM orders o INNER JOIN item i ON o.item_id=i.item_id INNER JOIN category c ON i.category_id=c.category_id WHERE o.user_name=? AND o.user_phone=? ORDER BY o.orders_id";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, myOrders.getUserName());
@@ -175,8 +168,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "INSERT INTO orders(item_id, item_count, orders_date, orders_price, orders_state, user_name, user_phone, user_address) VALUES(?,?,now(),?,'주문완료',?,?,?)";
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, orders.getItemId());
@@ -213,8 +205,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT o.orders_id, o.item_id, o.item_count, o.orders_date, o.orders_price, o.orders_state, o.user_name, o.user_phone, o.user_address, i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, i.item_img, c.category_id, c.category_name FROM orders o INNER JOIN item i ON o.item_id=i.item_id INNER JOIN category c ON i.category_id=c.category_id WHERE o.user_name=? AND o.user_phone=? ORDER BY o.orders_id LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, myOrders.getUserName());
@@ -274,8 +265,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT o.orders_id, o.item_id, o.item_count, o.orders_date, o.orders_price, o.orders_state, o.user_name, o.user_phone, o.user_address, i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, c.category_id, c.category_name FROM orders o INNER JOIN item i ON o.item_id=i.item_id INNER JOIN category c ON i.category_id=c.category_id  ORDER BY o.orders_id LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
@@ -331,8 +321,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT o.orders_id, o.item_id, o.item_count, o.orders_date, o.orders_price, o.orders_state, o.user_name, o.user_phone, o.user_address, i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, c.category_id, c.category_name FROM orders o INNER JOIN item i ON o.item_id=i.item_id INNER JOIN category c ON i.category_id=c.category_id  ORDER BY o.orders_id";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -385,8 +374,7 @@ public class OrdersDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "SELECT o.orders_id, o.item_id, o.item_count, o.orders_date, o.orders_price, o.orders_state, o.user_name, o.user_phone, o.user_address, i.item_id, i.category_id, i.item_name, i.item_price, i.item_contents, c.category_id, c.category_name FROM orders o INNER JOIN item i ON o.item_id=i.item_id INNER JOIN category c ON i.category_id=c.category_id WHERE o.orders_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, ordersId);
@@ -437,8 +425,7 @@ public class OrdersDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "UPDATE orders SET orders_state=? WHERE orders_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, orders.getOrdersState());
@@ -462,8 +449,7 @@ public class OrdersDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "UPDATE orders SET item_count=?, user_name=?, user_phone=?, user_address=?, orders_price=? WHERE orders_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, orders.getItemCount());
@@ -490,8 +476,7 @@ public class OrdersDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+			conn = DBUtil.getConnection();
 			String sql = "UPDATE orders SET orders_state='주문취소' WHERE orders_id=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, ordersId);

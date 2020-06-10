@@ -5,6 +5,11 @@ public class Orders {
 	private int itemId;
 	private int itemCount;
 	private String ordersDate;
+	private int ordersPrice;
+	private String ordersState;
+	private String userName;
+	private String userPhone;
+	private String userAddress;
 	public int getOrdersId() {
 		return ordersId;
 	}
@@ -59,9 +64,4 @@ public class Orders {
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-	private int ordersPrice;
-	private String ordersState;
-	private String userName;
-	private String userPhone;
-	private String userAddress;
 }
